@@ -12,6 +12,25 @@ const GameBoard = () => {
     [[], [], []],
   ];
 
+  const createBoard= () =>{
+    const container = document.querySelector('.container');
+
+    let counter = 1;
+    for(let r = 1; r <= 3; r++){
+        const row = document.createElement('div');
+        row.classList.add('row');
+        for(let col = 1; col <= 3; col++){
+            row.id = `r${r}`;
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.id = `s${counter++}`;
+            row.appendChild(square);
+        }
+        container.append(row);
+    }
+  }
+
+
   const getGameBoard = () => table;
   const setTicker = (row, col, ticker) => {
     if (table[row][col] == "") {
@@ -19,7 +38,7 @@ const GameBoard = () => {
     }
   };
 
-  const checkWinner = (lastPlayer) => {
+  const checkWinner = (playerName) => {
     //Checks if one of the corners or middle is not empty
     if (
       table[0][0] != "" ||
@@ -45,19 +64,36 @@ const GameBoard = () => {
         (table[0][0] == table[1][1] && table[1][1] == table[2][2]) ||
         (table[2][0] == table[1][1] && table[1][1] == table[0][2])
       ) {
-        alert(`Winner is ${lastPlayer}`);
+        alert(`Winner is ${playerName}`);
+        winner = true;
+        reset();
       }
     }
   };
-  return { getGameBoard, setTicker, checkWinner };
+
+  const reset = () => {
+    table = [
+      [[], [], []],
+      [[], [], []],
+      [[], [], []],
+    ];
+    round = 1;
+    console.clear();
+  };
+
+  return { getGameBoard, setTicker, reset, checkWinner, createBoard };
 };
 
-const Game = () => {
-  var gameBoard = GameBoard();
+const Game = () => {  
+  let gameBoard = GameBoard();
+  gameBoard.createBoard();
+
   const p1 = Player("John", "X");
   const p2 = Player("Michael", "O");
 
-  var lastPlayer = p1;
+  let lastPlayer = p1;
+  let winner = false;
+  let round = 1;
 
   const togglePlayer = () => {
     if (lastPlayer == p1) {
@@ -67,14 +103,19 @@ const Game = () => {
     }
   };
 
-  for (let index = 0; index < 9; index++) {
-    console.log(`Round: ${index+1}`);
+  const incrementRound = () => round++;
+
+  do {
+    console.log(`Round ${round}: ${lastPlayer.getName()}`);
     console.log(gameBoard.getGameBoard());
-    let col = prompt('Col');
-    let row = prompt('Row');
     gameBoard.setTicker(row, col, lastPlayer.getTicker());
     gameBoard.checkWinner(lastPlayer.getName());
     togglePlayer();
+    incrementRound();
+  } while (!winner);
+
+  if (winner) {
+    reset();
   }
 };
 
