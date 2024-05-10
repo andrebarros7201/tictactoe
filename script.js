@@ -12,112 +12,102 @@ const GameBoard = () => {
     [[], [], []],
   ];
 
-  const createBoard= () =>{
-    const container = document.querySelector('.container');
+  const createBoard = () => {
+    const container = document.querySelector(".container");
 
     let counter = 1;
-    for(let r = 1; r <= 3; r++){
-        const row = document.createElement('div');
-        row.classList.add('row');
-        for(let col = 1; col <= 3; col++){
-            row.id = `r${r}`;
-            const square = document.createElement('div');
-            square.classList.add('square');
-            square.id = `s${counter++}`;
-            row.appendChild(square);
-        }
-        container.append(row);
+    for (let r = 1; r <= 3; r++) {
+      const row = document.createElement("div");
+      row.classList.add("row");
+      for (let col = 1; col <= 3; col++) {
+        row.id = `r${r}`;
+        const square = document.createElement("div");
+        square.classList.add("square");
+        square.id = `s${counter++}`;
+        row.appendChild(square);
+      }
+      container.append(row);
     }
-  }
+  };
 
-  const getRowCol = (square) => {
-    switch (square){
-        case 's1':
-            return {row: 0, col: 0};
-        case 's2':
-            return {row: 0, col: 1};
-        case 's3':
-            return {row: 0, col: 2};
-        case 's4':
-            return {row: 1, col: 0};
-        case 's5':
-            return {row: 1, col: 1};
-        case 's6':
-            return {row: 1, col: 2};
-        case 's7':
-            return {row: 2, col: 0};
-        case 's8':
-            return {row: 2, col: 1};
-        case 's9':
-            return {row: 2, col: 2};
+  const getSquares = () => {
+    return document.querySelectorAll(".square");
+  };
+
+  const setTicker = (square, playerMarker) => {
+    const value = document.createElement("h2");
+    value.textContent = `${playerMarker}`;
+    square.appendChild(value);
+  };
+
+  const checkSquareValue = (square) => {
+    if (!square.hasChildNodes()) {
+      return true;
+    } else {
+      return false;
     }
-  }
-  const getGameBoard = () => table;
-  const setTicker = (row, col, ticker) => {
-    if (table[row][col] == "") {
-      table[row][col] = ticker;
+  };
+
+  const declareWinner = (winnerName) => {
+    alert(`Winner is ${winnerName}`);
+  };
+
+  const checkLine = (square1, square2, square3, playerName) => {
+    if (square1.value === square2.value && square2.value === square3.value) {
+      declareWinner(playerName);
+      reset();
+      return true;
+    } else {
+      return false;
     }
   };
 
   const checkWinner = (playerName) => {
-    //Checks if one of the corners or middle is not empty
-    if (
-      table[0][0] != "" ||
-      table[0][2] != "" ||
-      table[2][0] != "" ||
-      table[2][2] != "" ||
-      table[1][1] != ""
-    ) {
-      if (
-        //Top Horizontal
-        (table[0][0] == table[0][1] && table[0][1] == table[0][2]) ||
-        //Middle Horizontal
-        (table[1][0] == table[1][1] && table[1][1] == table[1][2]) ||
-        //Bottom Horizontal
-        (table[2][0] == table[2][1] && table[2][1] == table[2][2]) ||
-        //Left Vertical
-        (table[0][0] == table[1][0] && table[1][0] == table[2][0]) ||
-        // Middle Vertical
-        (table[0][1] == table[1][1] && table[1][1] == table[2][1]) ||
-        //Right Vertical
-        (table[0][2] == table[1][2] && table[1][2] == table[2][2]) ||
-        //Diagonals
-        (table[0][0] == table[1][1] && table[1][1] == table[2][2]) ||
-        (table[2][0] == table[1][1] && table[1][1] == table[0][2])
-      ) {
-        alert(`Winner is ${playerName}`);
-        winner = true;
-        reset();
-      }
+    const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = getSquares();
+    if (s1.hasChildNodes() && s2.hasChildNodes() && s3.hasChildNodes()) {
+      checkLine(s1.firstChild, s2.firstChild, s3.firstChild, playerName);
+    } else if (s4.hasChildNodes() && s5.hasChildNodes() && s6.hasChildNodes()) {
+      checkLine(s4.firstChild, s5.firstChild, s6.firstChild, playerName);
+    } else if (s7.hasChildNodes() && s8.hasChildNodes() && s9.hasChildNodes()) {
+      checkLine(s7.firstChild, s8.firstChild, s9.firstChild, playerName);
+    } else if (s1.hasChildNodes() && s4.hasChildNodes() && s7.hasChildNodes()) {
+      checkLine(s1.firstChild, s4.firstChild, s7.firstChild, playerName);
+    } else if (s2.hasChildNodes() && s5.hasChildNodes() && s8.hasChildNodes()) {
+      checkLine(s2.firstChild, s5.firstChild, s8.firstChild, playerName);
+    } else if (s3.hasChildNodes() && s6.hasChildNodes() && s9.hasChildNodes()) {
+      checkLine(s3.firstChild, s6.firstChild, s9.firstChild, playerName);
+    } else if (s1.hasChildNodes() && s5.hasChildNodes() && s9.hasChildNodes()) {
+      checkLine(s1.firstChild, s5.firstChild, s9.firstChild, playerName);
+    } else if (s7.hasChildNodes() && s5.hasChildNodes() && s3.hasChildNodes()) {
+      checkLine(s7.firstChild, s5.firstChild, s3.firstChild, playerName);
     }
   };
 
   const reset = () => {
-    table = [
-      [[], [], []],
-      [[], [], []],
-      [[], [], []],
-    ];
-    round = 1;
-    console.clear();
+    const container = document.querySelector('.container');
+    while(container.firstChild){
+      container.removeChild(container.firstChild);
+    }
+    createBoard();
   };
 
-  return { getGameBoard, setTicker, reset, checkWinner, createBoard, getRowCol };
+  return {
+    setTicker,
+    checkWinner,
+    createBoard,
+    getSquares,
+    checkSquareValue,
+  };
 };
 
-const Game = () => {  
+const Game = () => {
   let gameBoard = GameBoard();
   gameBoard.createBoard();
-
-  let {row, col} = gameBoard.getRowCol('s1');
-  console.log(`${row} ${col}`);
 
   const p1 = Player("John", "X");
   const p2 = Player("Michael", "O");
 
   let lastPlayer = p1;
-  let winner = false;
-  let round = 1;
 
   const togglePlayer = () => {
     if (lastPlayer == p1) {
@@ -129,20 +119,18 @@ const Game = () => {
 
   const incrementRound = () => round++;
 
-//infinite
-//   do {
-//     console.log(`Round ${round}: ${lastPlayer.getName()}`);
-//     console.log(gameBoard.getGameBoard());
-//     gameBoard.setTicker(row, col, lastPlayer.getTicker());
-//     gameBoard.checkWinner(lastPlayer.getName());
-//     togglePlayer();
-//     incrementRound();
-//   } while (!winner);
+  const squares = gameBoard.getSquares();
 
-  if (winner) {
-    reset();
-  }
+  squares.forEach((square) => {
+    square.addEventListener("click", () => {
+      if (gameBoard.checkSquareValue(square)) {
+        gameBoard.setTicker(square, lastPlayer.getTicker());
+        togglePlayer();
+        gameBoard.checkWinner(lastPlayer.getName());
+        console.log(square.id, lastPlayer.getTicker());
+      }
+    });
+  });
 };
-
 
 Game();
