@@ -30,7 +30,28 @@ const GameBoard = () => {
     }
   }
 
-
+  const getRowCol = (square) => {
+    switch (square){
+        case 's1':
+            return {row: 0, col: 0};
+        case 's2':
+            return {row: 0, col: 1};
+        case 's3':
+            return {row: 0, col: 2};
+        case 's4':
+            return {row: 1, col: 0};
+        case 's5':
+            return {row: 1, col: 1};
+        case 's6':
+            return {row: 1, col: 2};
+        case 's7':
+            return {row: 2, col: 0};
+        case 's8':
+            return {row: 2, col: 1};
+        case 's9':
+            return {row: 2, col: 2};
+    }
+  }
   const getGameBoard = () => table;
   const setTicker = (row, col, ticker) => {
     if (table[row][col] == "") {
@@ -81,12 +102,15 @@ const GameBoard = () => {
     console.clear();
   };
 
-  return { getGameBoard, setTicker, reset, checkWinner, createBoard };
+  return { getGameBoard, setTicker, reset, checkWinner, createBoard, getRowCol };
 };
 
 const Game = () => {  
   let gameBoard = GameBoard();
   gameBoard.createBoard();
+
+  let {row, col} = gameBoard.getRowCol('s1');
+  console.log(`${row} ${col}`);
 
   const p1 = Player("John", "X");
   const p2 = Player("Michael", "O");
@@ -105,18 +129,20 @@ const Game = () => {
 
   const incrementRound = () => round++;
 
-  do {
-    console.log(`Round ${round}: ${lastPlayer.getName()}`);
-    console.log(gameBoard.getGameBoard());
-    gameBoard.setTicker(row, col, lastPlayer.getTicker());
-    gameBoard.checkWinner(lastPlayer.getName());
-    togglePlayer();
-    incrementRound();
-  } while (!winner);
+//infinite
+//   do {
+//     console.log(`Round ${round}: ${lastPlayer.getName()}`);
+//     console.log(gameBoard.getGameBoard());
+//     gameBoard.setTicker(row, col, lastPlayer.getTicker());
+//     gameBoard.checkWinner(lastPlayer.getName());
+//     togglePlayer();
+//     incrementRound();
+//   } while (!winner);
 
   if (winner) {
     reset();
   }
 };
+
 
 Game();
