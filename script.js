@@ -53,8 +53,8 @@ const GameBoard = () => {
   };
 
   const checkLine = (square1, square2, square3, playerName) => {
-    if (square1.isEqualNode(square2 ) && square2.isEqualNode(square3)) {
-      console.log('winner');
+    if (square1.isEqualNode(square2) && square2.isEqualNode(square3)) {
+      console.log("winner");
       declareWinner(playerName);
       reset();
       return true;
@@ -67,26 +67,26 @@ const GameBoard = () => {
     const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = getSquares();
     if (s1.hasChildNodes() && s2.hasChildNodes() && s3.hasChildNodes()) {
       checkLine(s1.firstChild, s2.firstChild, s3.firstChild, playerName);
-    } 
-     if (s4.hasChildNodes() && s5.hasChildNodes() && s6.hasChildNodes()) {
+    }
+    if (s4.hasChildNodes() && s5.hasChildNodes() && s6.hasChildNodes()) {
       checkLine(s4.firstChild, s5.firstChild, s6.firstChild, playerName);
-    } 
-     if (s7.hasChildNodes() && s8.hasChildNodes() && s9.hasChildNodes()) {
+    }
+    if (s7.hasChildNodes() && s8.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s7.firstChild, s8.firstChild, s9.firstChild, playerName);
-    } 
-     if (s1.hasChildNodes() && s4.hasChildNodes() && s7.hasChildNodes()) {
+    }
+    if (s1.hasChildNodes() && s4.hasChildNodes() && s7.hasChildNodes()) {
       checkLine(s1.firstChild, s4.firstChild, s7.firstChild, playerName);
-    } 
-     if (s2.hasChildNodes() && s5.hasChildNodes() && s8.hasChildNodes()) {
+    }
+    if (s2.hasChildNodes() && s5.hasChildNodes() && s8.hasChildNodes()) {
       checkLine(s2.firstChild, s5.firstChild, s8.firstChild, playerName);
-    } 
-     if (s3.hasChildNodes() && s6.hasChildNodes() && s9.hasChildNodes()) {
+    }
+    if (s3.hasChildNodes() && s6.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s3.firstChild, s6.firstChild, s9.firstChild, playerName);
-    } 
-     if (s1.hasChildNodes() && s5.hasChildNodes() && s9.hasChildNodes()) {
+    }
+    if (s1.hasChildNodes() && s5.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s1.firstChild, s5.firstChild, s9.firstChild, playerName);
-    } 
-     if (s7.hasChildNodes() && s5.hasChildNodes() && s3.hasChildNodes()) {
+    }
+    if (s7.hasChildNodes() && s5.hasChildNodes() && s3.hasChildNodes()) {
       checkLine(s7.firstChild, s5.firstChild, s3.firstChild, playerName);
     }
   };
@@ -115,6 +115,19 @@ const Game = () => {
   const p1 = Player("John", "X");
   const p2 = Player("Michael", "O");
 
+  const left = document.querySelector("#left");
+  const right = document.querySelector("#right");
+  
+  if (!left.hasChildNodes() && !right.hasChildNodes()) {
+    const nameP1 = document.createElement("h2");
+    nameP1.textContent = p1.getName();
+    left.appendChild(nameP1);
+
+    const nameP2 = document.createElement("h2");
+    nameP2.textContent = p2.getName();
+    right.appendChild(nameP2);
+  }
+
   let lastPlayer = p1;
 
   const togglePlayer = () => {
@@ -124,8 +137,6 @@ const Game = () => {
       lastPlayer = p1;
     }
   };
-
-  const incrementRound = () => round++;
 
   const squares = gameBoard.getSquares();
 
