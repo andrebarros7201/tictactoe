@@ -53,7 +53,8 @@ const GameBoard = () => {
   };
 
   const checkLine = (square1, square2, square3, playerName) => {
-    if (square1.value === square2.value && square2.value === square3.value) {
+    if (square1.isEqualNode(square2 ) && square2.isEqualNode(square3)) {
+      console.log('winner');
       declareWinner(playerName);
       reset();
       return true;
@@ -66,29 +67,36 @@ const GameBoard = () => {
     const [s1, s2, s3, s4, s5, s6, s7, s8, s9] = getSquares();
     if (s1.hasChildNodes() && s2.hasChildNodes() && s3.hasChildNodes()) {
       checkLine(s1.firstChild, s2.firstChild, s3.firstChild, playerName);
-    } else if (s4.hasChildNodes() && s5.hasChildNodes() && s6.hasChildNodes()) {
+    } 
+     if (s4.hasChildNodes() && s5.hasChildNodes() && s6.hasChildNodes()) {
       checkLine(s4.firstChild, s5.firstChild, s6.firstChild, playerName);
-    } else if (s7.hasChildNodes() && s8.hasChildNodes() && s9.hasChildNodes()) {
+    } 
+     if (s7.hasChildNodes() && s8.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s7.firstChild, s8.firstChild, s9.firstChild, playerName);
-    } else if (s1.hasChildNodes() && s4.hasChildNodes() && s7.hasChildNodes()) {
+    } 
+     if (s1.hasChildNodes() && s4.hasChildNodes() && s7.hasChildNodes()) {
       checkLine(s1.firstChild, s4.firstChild, s7.firstChild, playerName);
-    } else if (s2.hasChildNodes() && s5.hasChildNodes() && s8.hasChildNodes()) {
+    } 
+     if (s2.hasChildNodes() && s5.hasChildNodes() && s8.hasChildNodes()) {
       checkLine(s2.firstChild, s5.firstChild, s8.firstChild, playerName);
-    } else if (s3.hasChildNodes() && s6.hasChildNodes() && s9.hasChildNodes()) {
+    } 
+     if (s3.hasChildNodes() && s6.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s3.firstChild, s6.firstChild, s9.firstChild, playerName);
-    } else if (s1.hasChildNodes() && s5.hasChildNodes() && s9.hasChildNodes()) {
+    } 
+     if (s1.hasChildNodes() && s5.hasChildNodes() && s9.hasChildNodes()) {
       checkLine(s1.firstChild, s5.firstChild, s9.firstChild, playerName);
-    } else if (s7.hasChildNodes() && s5.hasChildNodes() && s3.hasChildNodes()) {
+    } 
+     if (s7.hasChildNodes() && s5.hasChildNodes() && s3.hasChildNodes()) {
       checkLine(s7.firstChild, s5.firstChild, s3.firstChild, playerName);
     }
   };
 
   const reset = () => {
-    const container = document.querySelector('.container');
-    while(container.firstChild){
+    const container = document.querySelector(".container");
+    while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
-    createBoard();
+    Game();
   };
 
   return {
