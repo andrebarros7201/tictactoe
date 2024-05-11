@@ -13,7 +13,7 @@ body{
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 2fr 1fr;
     grid-template-areas: "left container right"
-                         "left score    right";
+                         "bottom bottom bottom";
 }
 
 .container{
@@ -22,6 +22,7 @@ body{
     grid-area: container;
     display: flex;
     flex-direction: column;
+    padding: 1rem;
 }
 
 .row{
@@ -43,6 +44,7 @@ body{
 #left,#right{
     display: flex;
     justify-content: center;
+    min-width: 200px;
 }
 
 #left{
@@ -53,10 +55,11 @@ body{
     grid-area: right;
 }
 
-#score{
-    grid-area: score;
+#bottom{
+    grid-area: bottom;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
